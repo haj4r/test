@@ -1,10 +1,9 @@
 <?php
-require_once "ZabbixApi.php";
-use IntelliTrend\Zabbix\ZabbixApi;
+  require_once "ZabbixApi.php";
+  use IntelliTrend\Zabbix\ZabbixApi;
 
-$zbx = new ZabbixApi();
-$zbx -> login('http://172.16.210.111/zabbix', 'hajar', '#Hajar166');
-
+  $zbx = new ZabbixApi();
+  $zbx -> login('http://172.16.210.111/zabbix', 'hajar', '#Hajar166');
 ?>
 <!DOCTYPE html>
 <html lang = "en">
@@ -16,8 +15,8 @@ table {
   font-family: arial, sans-serif;
   border-collapse: collapse;
   margin-top: 50px;
-  margin-left:200px;
-  width: 80%;
+  margin-left:400px;
+  width: 60%;
 }
 
 td, th {
@@ -39,33 +38,27 @@ tr:nth-child(even) {
     <th>Graph ID</th>
     <th>Name</th>
   </tr>
-  
-
 
    <?php
     $params = array ( 
-        'output' => array('hostid', 'host', 'name', 'status', 'maintenance_status', 'description', 'available', 'ipmi_available', 'snmp_available', 'jmx_available'),
-        'selectGraphs' => "extend" 
+        'output' => "extend",
+        'selectGraphs' => "extend",
+        'hostids' => $_GET['hostid']
       );
    
-        $result = $zbx -> call('host.get', $params);
+        $result = $zbx -> call('host.get',$params);
         $count = 0;
         $count++;
 
-        foreach ($result as $host) {
-          $_GET['hostid']= $host['hostid'];
-            print '<tr>';
-            echo '<td>' .$count++. '</td>';
-            
-            echo '<td>';
-            foreach ($host['graphs'] as $graph){
-             echo  $graph['graphid']. "<br>"; 
+        foreach($result as $host){
+          print '<tr>';
+            foreach ($host['graphs'] as $graph) {
+              echo '<td>' .$count++. '</td>';
+              echo  '<td>' .$graph['graphid']. '</td>' ;
+              echo '<td>'.$graph['name']. '</td>' ;
+              print '</tr>';
             }
-            echo '</td>';
-            echo '<td>'.$host['name']. '</td>' ;
-        echo '<td>';
- 
-        } print '</tr>';
+        }           
    ?>
 </table> 
 </body>

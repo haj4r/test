@@ -160,6 +160,7 @@ function sortTable(n) {
         'output' => array('hostid', 'host', 'name', 'status', 'maintenance_status', 'description', 'available', 'ipmi_available', 'snmp_available', 'jmx_available'),
         'selectInterfaces' => array('interfaceid', 'main', 'type', 'useip', 'ip', 'dns', 'port'),
         'selectGroups' => array('groupid','name','internal','flags')
+        
       );
 
         $result = $zbx -> call('host.get', $params);
@@ -167,10 +168,10 @@ function sortTable(n) {
         $count++;
         foreach ($result as $host) {
 
-          $_GET['hostid']= $host['hostid'];
+          
             print  '<tr>';
             echo '<td>' .$count++. '</td>';
-            echo '<td ><a href="test3.php?hostid ='.$_GET['hostid'].'">'.$host['name'].'</a> </td>' ; //href for graph
+            echo '<td><a href = "test3.php?hostid='.$host['hostid'].'">'.$host['name'].'</a> </td>' ; //href for graph
 
         echo '<td>';
         foreach ($host["interfaces"] as $interfaces) {} echo $interfaces["ip"]."<br>"; echo'</td>';
